@@ -108,20 +108,21 @@ const setTime = (t) => {
 
 function sendEmail() {
 	Email.send({
-		SecureToken: "<paste security token that we just generated>",
+		SecureToken: "<6e579a36-3d64-420c-a403-4cb7c9008818>",
 		To: "aymuntian@gmail.com",
 		From: "aym58@ukr.net",
 		Subject: "Test email",
-		Body: "<html><h2>Header</h2><strong>Bold text</strong><br></br><em>Italic</em></html>",
+		Body: `Sludent name: ${nameInp.value},\nlesson at ${selectedTime} on ${selectedDay}.${selectedMonth}.${yyyy}\nLesson lenght: ${duration}`,
 	}).then(() => alert("mail sent successfully"));
 }
 
+/*
 const submit = () => {
 	console.log(
 		`Sludent name: ${nameInp.value},\nlesson at ${selectedTime} on ${selectedDay}.${selectedMonth}.${yyyy}\nLesson lenght: ${duration}`
 	);
 	sendEmail();
-};
+};*/
 
 const submitTime = () => {
 	selectorField.innerHTML = "";
