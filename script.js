@@ -108,10 +108,8 @@ const setTime = (t) => {
 
 function sendEmail() {
 	Email.send({
-		Host: "smtp.mailtrap.io",
-		Username: "<3e5764b494b3f6>",
-		Password: "<74b91b905cd5cb>",
-		To: "aym58@ukr.net",
+		SecureToken: "<paste security token that we just generated>",
+		To: "aymuntian@gmail.com",
 		From: "aym58@ukr.net",
 		Subject: "Test email",
 		Body: "<html><h2>Header</h2><strong>Bold text</strong><br></br><em>Italic</em></html>",
@@ -194,4 +192,4 @@ monthSelectButton.addEventListener("click", selectMonthFunc);
 
 selectTimeBtn.addEventListener("click", selectTimeFunc);
 
-submitBtn.addEventListener("click", submit);
+submitBtn.addEventListener("click", sendEmail);
