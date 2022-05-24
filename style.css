@@ -6,10 +6,6 @@
 	box-sizing: border-box;
 }
 
-iframe {
-	width: 50vw;
-}
-
 body {
 	background-image: linear-gradient(-225deg, #e3fdf5 0%, #ffe6fa 100%);
 	background-image: linear-gradient(to top, #a8edea 0%, #fed6e3 100%);
@@ -24,10 +20,8 @@ body {
 	/* background-image: linear-gradient(to top, #d9afd9 0%, #97d9e1 100%); */
 }
 
-form {
+.form {
 	max-width: 480px;
-	min-height: 600px;
-	height: auto;
 	border-radius: 5px;
 	margin: 2% auto;
 	box-shadow: 0 9px 50px hsla(20, 67%, 75%, 0.31);
@@ -36,7 +30,7 @@ form {
 	background-image: linear-gradient(-225deg, #e3fdf5 50%, #ffe6fa 50%);
 }
 
-form .con {
+.con {
 	display: -webkit-flex;
 	display: flex;
 	-webkit-justify-content: space-around;
@@ -52,7 +46,7 @@ header {
 }
 
 header h2 {
-	font-size: 250%;
+	font-size: 240%;
 	font-family: "Playfair Display", serif;
 	color: #3e403f;
 }
@@ -69,7 +63,8 @@ header p {
 	border-radius: 5px;
 }
 
-input[class="form-input"] {
+.form-input {
+	display: block;
 	width: 340px;
 	height: 60px;
 	margin-top: 8px;
@@ -86,6 +81,11 @@ input[class="form-input"] {
 input:focus {
 	transform: translateX(-2px);
 	border-radius: 5px;
+}
+
+.field-set {
+	font-family: "Abel", sans-serif;
+	color: #5e6472;
 }
 
 .select-duration {
@@ -106,22 +106,20 @@ input:focus {
 	height: 60px;
 	float: left;
 	padding: 18px;
-	font-size: 18px;
-	font-family: "Abel", sans-serif;
-	color: #5e6472;
 	text-align: center;
+	font-size: 18px;
 	background: #fff;
 	margin-top: 8px;
 	cursor: pointer;
 	border-radius: 5px;
 }
 
-#day {
+#day-btn {
 	width: 100px;
 	margin-right: 8px;
 }
 
-#month {
+#month-btn {
 	width: 100px;
 	margin-right: 8px;
 }
@@ -137,8 +135,6 @@ input:focus {
 	float: left;
 	padding: 18px;
 	font-size: 18px;
-	font-family: "Abel", sans-serif;
-	color: #5e6472;
 	width: 166px;
 	text-align: center;
 	background: #fff;
@@ -161,10 +157,94 @@ input:focus {
 	transition: width 1s ease;
 }
 
-button {
-	display: inline-block;
+.select-field {
+	width: 340px;
+	min-height: 200px;
+}
+
+.date-input-month {
+	margin: 0;
+	display: block;
+	height: 60px;
+	float: left;
+	padding: 18px;
+	font-size: 18px;
+	width: 166px;
+	text-align: center;
+	background: #fff;
+	margin-top: 8px;
+	margin-right: 0px;
+	cursor: pointer;
+	border-radius: 5px;
+	transition: all 1s ease;
+}
+
+.date-input-month:first-child {
+	margin-right: 8px;
+}
+
+.date-input-day {
+	margin: 0;
+	margin-top: 20px;
+	display: block;
+	height: 40px;
+	float: left;
+	padding: 10px;
+	font-size: 18px;
+	width: 42.5px;
+	margin-right: 6px;
+	text-align: center;
+	background: #fff;
+	margin-top: 7px;
+	cursor: pointer;
+	border-radius: 5px;
+	transition: all 1s ease;
+}
+
+.date-input-time {
+	margin: 0;
+	display: block;
+	height: 40px;
+	float: left;
+	padding: 10px;
+	font-size: 18px;
+	width: 166px;
+	text-align: center;
+	background: #fff;
+	margin-top: 8px;
+	margin-right: 4px;
+	cursor: pointer;
+	border-radius: 5px;
+	transition: all 1s ease;
+}
+
+.time-selected {
+	margin: 0;
+	display: block;
+	height: 60px;
+	float: left;
+	padding: 18px;
+	font-size: 18px;
+	width: 340px;
+	text-align: center;
+	background: #fff;
+	margin-top: 8px;
+	margin-right: 4px;
+	cursor: pointer;
+	border-radius: 5px;
+	transition: all 1s ease;
+}
+
+.btn-field {
+	float: left;
 	color: #252537;
 	width: 340px;
+}
+
+button {
+	float: left;
+	color: #252537;
+	width: 166px;
 	height: 60px;
 	padding: 0 20px;
 	font-size: 18px;
@@ -179,6 +259,10 @@ button {
 	letter-spacing: 0.05em;
 }
 
+#selectTimeBtn {
+	margin-right: 8px;
+}
+
 button:hover {
 	transform: translatey(3px);
 	box-shadow: none;
@@ -187,6 +271,7 @@ button:hover {
 button:hover {
 	animation: ani9 0.4s ease-in-out infinite alternate;
 }
+/*
 @keyframes ani9 {
 	0% {
 		transform: translateY(3px);
@@ -194,4 +279,8 @@ button:hover {
 	100% {
 		transform: translateY(5px);
 	}
+}
+*/
+#email-input {
+	display: none;
 }
