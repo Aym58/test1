@@ -1,4 +1,3 @@
-"use strict";
 const subminBtn = document.getElementById("submit");
 const nameInp = document.getElementById("name-input");
 const emailInp = document.getElementById("email-input");
@@ -6,29 +5,20 @@ const oneHourSelect = document.getElementById("1-hour");
 const oneAndHalfHourSelect = document.getElementById("1,5-hour");
 const monthSelectButton = document.getElementById("month-btn");
 const daySelectButton = document.getElementById("day-btn");
+const selectDurationField = document.querySelector(".select-duration");
 const selectorField = document.getElementById("selector-field");
 const selectTimeBtn = document.getElementById("selectTimeBtn");
 const submitBtn = document.getElementById("submitBtn");
 
-let duration;
-for (let i = 0; i < 2; i++) {
-	let durationSelect = document.getElementById(`duration-${i}`);
-	durationSelect.addEventListener("click", function () {
-		const durationUnSelect = document.getElementById(
-			`duration-${i === 1 ? 0 : 1}`
-		);
-		i == 0 ? (duration = "1 hour") : (duration = "1,5 hours");
-		durationSelect.classList.add("dur-selected");
-		durationSelect.classList.remove("dur-unselected");
-		durationUnSelect.classList.add("dur-unselected");
-		durationUnSelect.classList.remove("dur-selected");
-	});
-}
-
 let today = new Date();
 let dd = today.getDate();
+let weekday = today.getDay();
 let mm = today.getMonth();
 let yyyy = today.getFullYear();
+console.log(new Date(yyyy, mm, 1).getDay());
+console.log(new Date(yyyy, mm, 1));
+
+let weekDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 let months = [
 	"Jan",
@@ -40,7 +30,7 @@ let months = [
 	"Jul",
 	"Aug",
 	"Sep",
-	"Sep",
+	"Oct",
 	"Nov",
 	"Dec",
 ];
@@ -78,51 +68,44 @@ let times = [
 	"15:00",
 ];
 
-console.log(months[5]);
-
 today = `${String(dd).padStart(2, "0")}.${String(mm).padStart(2, "0")}.${yyyy}`;
-
 document.getElementById("year").innerHTML = yyyy;
 monthSelectButton.innerHTML = months[mm];
-
 daySelectButton.innerHTML = String(dd).padStart(2, "0");
-
 let selectedMonth = mm;
 let selectedDay = Number(String(dd).padStart(2, "0"));
 let selectedTime;
 
 const setMonth = (m) => {
 	selectedMonth = m;
-	console.log(selectedMonth);
 };
 
 const setDay = (d) => {
 	selectedDay = d;
-	console.log(selectedDay);
 };
 
 const setTime = (t) => {
 	selectedTime = times[t];
-	console.log(selectedTime);
 };
 
-function sendEmail() {
-	Email.send({
-		SecureToken: "<6e579a36-3d64-420c-a403-4cb7c9008818>",
-		To: "aymuntian@gmail.com",
-		From: "aym58@ukr.net",
-		Subject: "Test email",
-		Body: `Sludent name: ${nameInp.value},\nlesson at ${selectedTime} on ${selectedDay}.${selectedMonth}.${yyyy}\nLesson lenght: ${duration}`,
-	}).then(() => alert("mail sent successfully"));
-}
+let duration;
+selectDurationField.addEventListener("click", function (e) {
+	if (e.target.classList.contains("duration")) {
+		e.target.parentElement.querySelectorAll(".duration").forEach((e) => {
+			e.classList.add("dur-unselected");
+			e.classList.remove("dur-selected");
+		});
+		e.target.classList.add("dur-selected");
+		e.target.classList.remove("dur-unselected");
+		duration = e.target.getAttribute("data-dur");
+	}
+});
 
-/*
 const submit = () => {
 	console.log(
-		`Sludent name: ${nameInp.value},\nlesson at ${selectedTime} on ${selectedDay}.${selectedMonth}.${yyyy}\nLesson lenght: ${duration}`
+		`Student name: ${nameInp.value},\nlesson at ${selectedTime} on ${selectedDay}.${selectedMonth}.${yyyy}\nLesson lenght: ${duration}`
 	);
-	sendEmail();
-};*/
+};
 
 const submitTime = () => {
 	selectorField.innerHTML = "";
@@ -149,24 +132,41 @@ const selectMonthFunc = () => {
 };
 
 const selectDayFunc = () => {
-	let d, m;
 	selectorField.innerHTML = "";
-	if (mm === selectedMonth) {
-		d = dd;
-	} else {
-		d = 1;
-	}
-	for (let i = d; i <= days[selectedMonth]; i++) {
+	mm === selectedMonth ? (d = dd) : (d = 1);
+	const startOfMonthDay = new Date(yyyy, selectedMonth, 1).getDay();
+	for (let i = 1; i <= 7; i++) {
 		const el = selectorField.appendChild(document.createElement("div"));
-		el.setAttribute("class", "date-input-day");
+		el.classList.add("date-weekday");
+		el.textContent = weekDays[i - 1];
+	}
+
+	for (let i = 1; i < startOfMonthDay; i++) {
+		const el = selectorField.appendChild(document.createElement("div"));
+		el.setAttribute("class", "date-input-day-filler");
+		//	el.setAttribute("id", `date-input-day-${i}`);
+	}
+
+	for (let i = 1; i <= days[selectedMonth]; i++) {
+		const el = selectorField.appendChild(document.createElement("div"));
+		el.classList.add("date-input-day");
 		el.setAttribute("id", `date-input-day-${i}`);
 		el.innerHTML = String(i).padStart(2, "0");
+		const wd = `${new Date(yyyy, selectedMonth, i)}`;
+		if (wd.includes("Sun") || wd.includes("Sat")) {
+			el.classList.add("date-input-day-weekend");
+		}
+		if (wd.includes("Sun")) {
+			el.classList.add("date-input-day-sunday");
+		}
+
 		document
 			.getElementById(`date-input-day-${i}`)
 			.addEventListener("click", () => {
 				setDay(i);
 				daySelectButton.innerHTML = String(i).padStart(2, "0");
 				selectorField.innerHTML = "";
+				selectTimeFunc();
 			});
 	}
 };
@@ -188,9 +188,5 @@ const selectTimeFunc = () => {
 };
 
 daySelectButton.addEventListener("click", selectDayFunc);
-
 monthSelectButton.addEventListener("click", selectMonthFunc);
-
-selectTimeBtn.addEventListener("click", selectTimeFunc);
-
-submitBtn.addEventListener("click", sendEmail);
+submitBtn.addEventListener("click", submit);

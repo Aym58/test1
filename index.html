@@ -8,6 +8,7 @@
 			content="width=device-width, initial-scale=0.80, maximum-scale=0.80, user-scalable=no"
 		/>
 		<link href="style.css" rel="stylesheet" type="text/css" />
+		<script src="https://smtpjs.com/v3/smtp.js"></script>
 	</head>
 	<body>
 		<div class="overlay">
@@ -32,8 +33,14 @@
 							name="password"
 						/>-->
 						<div class="select-duration">
-							<div id="duration-0" class="duration">1 hour</div>
-							<div id="duration-1" class="duration">
+							<div id="duration-0" data-dur="1" class="duration">
+								1 hour
+							</div>
+							<div
+								id="duration-1"
+								class="duration"
+								data-dur="1.5"
+							>
 								1.5 hours
 							</div>
 						</div>
@@ -44,14 +51,13 @@
 						</div>
 						<div class="select-field" id="selector-field"></div>
 						<div class="btn-field">
-							<button id="selectTimeBtn">Select time</button>
 							<button id="submitBtn">Submit</button>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<script src="https://smtpjs.com/v3/smtp.js"></script>
+
 		<script src="script.js"></script>
 	</body>
 </html>

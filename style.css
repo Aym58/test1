@@ -150,6 +150,7 @@ input:focus {
 .dur-selected {
 	width: 229px;
 	transition: width 1s ease;
+	background-color: #fff5e5;
 }
 
 .dur-unselected {
@@ -191,14 +192,56 @@ input:focus {
 	float: left;
 	padding: 10px;
 	font-size: 18px;
-	width: 42.5px;
-	margin-right: 6px;
+	width: 43px;
+	margin-right: 6.5px;
 	text-align: center;
 	background: #fff;
 	margin-top: 7px;
 	cursor: pointer;
 	border-radius: 5px;
 	transition: all 1s ease;
+}
+
+.date-input-day-filler {
+	margin: 0;
+	margin-top: 20px;
+	display: block;
+	height: 40px;
+	float: left;
+	padding: 10px;
+	font-size: 18px;
+	width: 43px;
+	margin-right: 6.5px;
+	text-align: center;
+	margin-top: 7px;
+	transition: all 1s ease;
+}
+
+.date-input-day-weekend {
+	color: #a54a5e;
+}
+
+.date-input-day-sunday {
+	margin-right: 0px;
+}
+
+.date-weekday {
+	margin: 0;
+	margin-top: 20px;
+	display: block;
+	height: 30px;
+	float: left;
+	padding: 6px;
+	font-size: 18px;
+	width: 43px;
+	margin-right: 6.5px;
+	text-align: center;
+	margin-top: 10px;
+	transition: all 1s ease;
+}
+
+.date-weekday:nth-child(7) {
+	margin-right: 0px;
 }
 
 .date-input-time {
@@ -212,10 +255,14 @@ input:focus {
 	text-align: center;
 	background: #fff;
 	margin-top: 8px;
-	margin-right: 4px;
+	margin-right: 8px;
 	cursor: pointer;
 	border-radius: 5px;
 	transition: all 1s ease;
+}
+
+.date-input-time:nth-child(2n) {
+	margin-right: 0px;
 }
 
 .time-selected {
@@ -244,7 +291,7 @@ input:focus {
 button {
 	float: left;
 	color: #252537;
-	width: 166px;
+	width: 340px;
 	height: 60px;
 	padding: 0 20px;
 	font-size: 18px;
