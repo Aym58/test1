@@ -112,6 +112,23 @@ const submitTime = () => {
 	const el = selectorField.appendChild(document.createElement("div"));
 	el.setAttribute("class", "time-selected");
 	el.innerHTML = selectedTime;
+	fadeIn(el);
+	el.addEventListener("click", () => {
+		fadeOut(el);
+		setTimeout(() => selectTimeFunc(), 100);
+	});
+};
+
+const fadeIn = (el) => {
+	el.style.transition = "all 0.1s linear";
+	el.style.opacity = 0;
+	setTimeout(() => (el.style.opacity = 1), 0);
+};
+
+const fadeOut = (el) => {
+	el.style.transition = "all 0.1s linear";
+	el.style.opacity = 1;
+	setTimeout(() => (el.style.opacity = 0), 0);
 };
 
 const selectMonthFunc = () => {
@@ -121,12 +138,25 @@ const selectMonthFunc = () => {
 		el.setAttribute("class", "date-input-month");
 		el.setAttribute("id", `date-input-month-${i}`);
 		el.innerHTML = months[i];
+		fadeIn(el);
+		if (i === selectedMonth) {
+			el.classList.add("date-input-month-selected");
+		}
 		document
 			.getElementById(`date-input-month-${i}`)
 			.addEventListener("click", () => {
 				setMonth(i);
 				monthSelectButton.innerHTML = months[i];
-				selectorField.innerHTML = "";
+				document
+					.querySelectorAll(".date-input-month")
+					.forEach((el) =>
+						el.classList.remove("date-input-selected")
+					);
+				el.classList.add("date-input-selected");
+				document
+					.querySelectorAll(".date-input-month")
+					.forEach((el) => fadeOut(el));
+				setTimeout(() => (selectorField.innerHTML = ""), 100);
 			});
 	}
 };
@@ -137,36 +167,47 @@ const selectDayFunc = () => {
 	const startOfMonthDay = new Date(yyyy, selectedMonth, 1).getDay();
 	for (let i = 1; i <= 7; i++) {
 		const el = selectorField.appendChild(document.createElement("div"));
-		el.classList.add("date-weekday");
+		el.classList.add("day", "date-weekday");
 		el.textContent = weekDays[i - 1];
+		fadeIn(el);
 	}
 
 	for (let i = 1; i < startOfMonthDay; i++) {
 		const el = selectorField.appendChild(document.createElement("div"));
-		el.setAttribute("class", "date-input-day-filler");
+		el.classList.add("day", "date-input-day-filler");
+		fadeIn(el);
 		//	el.setAttribute("id", `date-input-day-${i}`);
 	}
 
 	for (let i = 1; i <= days[selectedMonth]; i++) {
 		const el = selectorField.appendChild(document.createElement("div"));
-		el.classList.add("date-input-day");
+		el.classList.add("day", "date-input-day");
 		el.setAttribute("id", `date-input-day-${i}`);
 		el.innerHTML = String(i).padStart(2, "0");
+		fadeIn(el);
 		const wd = `${new Date(yyyy, selectedMonth, i)}`;
 		if (wd.includes("Sun") || wd.includes("Sat")) {
-			el.classList.add("date-input-day-weekend");
+			el.classList.add("day", "date-input-day-weekend");
 		}
 		if (wd.includes("Sun")) {
-			el.classList.add("date-input-day-sunday");
+			el.classList.add("day", "date-input-day-sunday");
 		}
-
 		document
 			.getElementById(`date-input-day-${i}`)
-			.addEventListener("click", () => {
+			.addEventListener("click", (e) => {
 				setDay(i);
 				daySelectButton.innerHTML = String(i).padStart(2, "0");
-				selectorField.innerHTML = "";
-				selectTimeFunc();
+
+				document
+					.querySelectorAll(".day")
+					.forEach((el) =>
+						el.classList.remove("date-input-selected")
+					);
+				e.target.classList.add("date-input-selected");
+
+				document.querySelectorAll(".day").forEach((el) => fadeOut(el));
+				setTimeout(() => (selectorField.innerHTML = ""), 100);
+				setTimeout(() => selectTimeFunc(), 100);
 			});
 	}
 };
@@ -178,11 +219,22 @@ const selectTimeFunc = () => {
 		el.setAttribute("class", "date-input-time");
 		el.setAttribute("id", `date-input-time-${i}`);
 		el.innerHTML = times[i];
+		fadeIn(el);
 		document
 			.getElementById(`date-input-time-${i}`)
-			.addEventListener("click", () => {
-				setTime(i);
-				submitTime();
+			.addEventListener("click", (e) => {
+				document
+					.querySelectorAll(".date-input-time")
+					.forEach((el) =>
+						el.classList.remove("date-input-selected")
+					);
+				e.target.classList.add("date-input-selected");
+
+				document
+					.querySelectorAll(".date-input-time")
+					.forEach((el) => fadeOut(el));
+				setTimeout(() => setTime(i), 100);
+				setTimeout(() => submitTime(), 100);
 			});
 	}
 };
