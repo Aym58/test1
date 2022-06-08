@@ -90,6 +90,7 @@ const setTime = (t) => {
 
 let duration;
 selectDurationField.addEventListener("click", function (e) {
+	e.preventDefault();
 	if (e.target.classList.contains("duration")) {
 		e.target.parentElement.querySelectorAll(".duration").forEach((e) => {
 			e.classList.add("dur-unselected");
@@ -101,19 +102,22 @@ selectDurationField.addEventListener("click", function (e) {
 	}
 });
 
-const submit = () => {
+const submit = (e) => {
+	e.preventDefault();
 	console.log(
 		`Student name: ${nameInp.value},\nlesson at ${selectedTime} on ${selectedDay}.${selectedMonth}.${yyyy}\nLesson lenght: ${duration}`
 	);
 };
 
-const submitTime = () => {
+const submitTime = (e) => {
+	e.preventDefault();
 	selectorField.innerHTML = "";
 	const el = selectorField.appendChild(document.createElement("div"));
 	el.setAttribute("class", "time-selected");
 	el.innerHTML = selectedTime;
 	fadeIn(el);
-	el.addEventListener("click", () => {
+	el.addEventListener("click", (e) => {
+		e.preventDefault();
 		fadeOut(el);
 		setTimeout(() => selectTimeFunc(), 100);
 	});
@@ -131,7 +135,8 @@ const fadeOut = (el) => {
 	setTimeout(() => (el.style.opacity = 0), 0);
 };
 
-const selectMonthFunc = () => {
+const selectMonthFunc = (e) => {
+	e.preventDefault();
 	selectorField.innerHTML = "";
 	for (let i = mm; i <= mm + 1; i++) {
 		const el = selectorField.appendChild(document.createElement("div"));
@@ -144,7 +149,8 @@ const selectMonthFunc = () => {
 		}
 		document
 			.getElementById(`date-input-month-${i}`)
-			.addEventListener("click", () => {
+			.addEventListener("click", (e) => {
+				e.preventDefault();
 				setMonth(i);
 				monthSelectButton.innerHTML = months[i];
 				document
@@ -161,7 +167,8 @@ const selectMonthFunc = () => {
 	}
 };
 
-const selectDayFunc = () => {
+const selectDayFunc = (e) => {
+	e.preventDefault();
 	selectorField.innerHTML = "";
 	mm === selectedMonth ? (d = dd) : (d = 1);
 	const startOfMonthDay = new Date(yyyy, selectedMonth, 1).getDay();
@@ -195,6 +202,7 @@ const selectDayFunc = () => {
 		document
 			.getElementById(`date-input-day-${i}`)
 			.addEventListener("click", (e) => {
+				e.preventDefault();
 				setDay(i);
 				daySelectButton.innerHTML = String(i).padStart(2, "0");
 
