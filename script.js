@@ -1,3 +1,4 @@
+const overlay = document.querySelector(".overlay");
 const subminBtn = document.getElementById("submit");
 const nameInp = document.getElementById("name-input");
 const emailInp = document.getElementById("email-input");
@@ -9,6 +10,10 @@ const selectDurationField = document.querySelector(".select-duration");
 const selectorField = document.getElementById("selector-field");
 const selectTimeBtn = document.getElementById("selectTimeBtn");
 const submitBtn = document.getElementById("submitBtn");
+const message = document.querySelector(".message");
+const messageContent = document.querySelector(".message-content");
+const messageBack = document.querySelector(".message-background");
+const closeMessageBtn = document.querySelector(".close-message");
 
 let today = new Date();
 let dd = today.getDate();
@@ -102,26 +107,53 @@ selectDurationField.addEventListener("click", function (e) {
 	}
 });
 
-const submit = (e) => {
-	e.preventDefault();
-	console.log(
-		`Student name: ${nameInp.value},\nlesson at ${selectedTime} on ${selectedDay}.${selectedMonth}.${yyyy}\nLesson lenght: ${duration}`
-	);
+const alertMessage = (error) => {
+	message.classList.remove("hide");
+	fadeIn(message);
+	messageContent.textContent = error;
+	messageBack.classList.remove("hide");
+	overlay.style.filter = "blur(10px)";
+	const closeMsg = () => {
+		fadeOut(message);
+		setTimeout(() => message.classList.add("hide"), 100);
+		overlay.style.filter = "";
+		messageBack.classList.add("hide");
+	};
+	closeMessageBtn.addEventListener("click", function () {
+		closeMsg();
+	});
+	messageBack.addEventListener("click", function () {
+		closeMsg();
+	});
 };
 
-const submitTime = (e) => {
+const submit = (e) => {
 	e.preventDefault();
+	if (nameInp.value === "") {
+		alertMessage("Please, enter your name");
+	} else if (!duration) {
+		alertMessage("Please, choose lesson length");
+	} else if (!selectedTime) {
+		alertMessage("Please, choose time");
+	} else
+		console.log(
+			`Student name: ${nameInp.value},\nlesson at ${selectedTime} on ${selectedDay}.${selectedMonth}.${yyyy}\nLesson lenght: ${duration}`
+		);
+};
+
+const submitTime = () => {
 	selectorField.innerHTML = "";
 	const el = selectorField.appendChild(document.createElement("div"));
 	el.setAttribute("class", "time-selected");
-	el.innerHTML = selectedTime;
-	fadeIn(el);
+	el.innerHTML = selectedTime || "Choose time";
+	selectedTime && fadeIn(el);
 	el.addEventListener("click", (e) => {
 		e.preventDefault();
 		fadeOut(el);
 		setTimeout(() => selectTimeFunc(), 100);
 	});
 };
+submitTime();
 
 const fadeIn = (el) => {
 	el.style.transition = "all 0.1s linear";
@@ -135,8 +167,7 @@ const fadeOut = (el) => {
 	setTimeout(() => (el.style.opacity = 0), 0);
 };
 
-const selectMonthFunc = (e) => {
-	e.preventDefault();
+const selectMonthFunc = () => {
 	selectorField.innerHTML = "";
 	for (let i = mm; i <= mm + 1; i++) {
 		const el = selectorField.appendChild(document.createElement("div"));
@@ -145,7 +176,7 @@ const selectMonthFunc = (e) => {
 		el.innerHTML = months[i];
 		fadeIn(el);
 		if (i === selectedMonth) {
-			el.classList.add("date-input-month-selected");
+			el.classList.add("date-input-selected");
 		}
 		document
 			.getElementById(`date-input-month-${i}`)
@@ -241,7 +272,7 @@ const selectTimeFunc = () => {
 				document
 					.querySelectorAll(".date-input-time")
 					.forEach((el) => fadeOut(el));
-				setTimeout(() => setTime(i), 100);
+				setTime(i);
 				setTimeout(() => submitTime(), 100);
 			});
 	}
